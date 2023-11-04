@@ -6,7 +6,11 @@ from langchain.embeddings import OpenAIEmbeddings #HuggingFaceInstructEmbeddings
 from langchain.vectorstores import FAISS
 from langchain.chat_models import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
-from langchain.chains import ConversationChain
+from langchain.chains import ConversationalRetrievalChain
+
+
+vectorstore = None
+conversation_chain = None
 
 def get_pdf_text():
    text = ""
@@ -38,31 +42,32 @@ def get_vectorstore(text_chunks):
    return vectorstore
 
 
-def get_conversation_chain(vectorstore,prompt):
+def get_conversation_chain(vectorstore):
    llm = ChatOpenAI()
-   conversation_chain = ConversationChain(
+   memory = ConversationBufferMemory(memory_key='chat_history', return_messages=True)
+   conversation_chain = ConversationalRetrievalChain.from_llm(
       llm=llm,
-     verbose=True,
-      memory=ConversationBufferMemory()  
+      retriever=vectorstore.as_retriever(), 
+      memory=memory  
   )
-   return conversation_chain.predict(input=prompt)
+   return conversation_chain
  
 
 
 
-def main(prompt):
+def main():
+    global conversation_chain
     load_dotenv()
     raw_text = get_pdf_text()
     text_chunks = get_text_chunks(raw_text)
     vectorstore = get_vectorstore(text_chunks) 
-    # response = st.session_state.conversation({'question': prompt})
-    # st.session_state.chat_history = response['chat_history']
+    conversation_chain = get_conversation_chain(vectorstore)
 
-    # for i, message in enumerate(st.session_state.chat_history):
-    #     print(message)
-    answer = get_conversation_chain(vectorstore,prompt)
-    return answer
-
+def ask(prompt):
+   global conversation_chain
+   res = conversation_chain(prompt)
+   chat_history = [message.content for message in res['chat_history']]
+   return chat_history
 
 if __name__ == '__main__':
     main()

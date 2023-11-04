@@ -1,14 +1,30 @@
-from flask import Flask, request
+from flask import Flask, request, jsonify
 import prompt_generator
 
 app = Flask(__name__)
 
+
+initDone = False
+
+@app.route('/init')
+def initChain():
+    global initDone
+    prompt_generator.main()
+    initDone = True
+    return "Init success"
+
 @app.route('/sendprompt', methods=["POST"])
 def sendPrompt():
+    global initDone
     prompt = request.json['prompt']
 
-    prompt_response = prompt_generator.main(prompt)
-    return prompt_response
+    if initDone == False:
+        initChain()
+
+    response = prompt_generator.ask(prompt)
+    return jsonify({"data":response[1]}) 
+  
+
 
 
 
