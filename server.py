@@ -13,8 +13,8 @@ def initChain():
     initDone = True
     return "Init success"
 
-@app.route('/sendprompt', methods=["POST"])
-def sendPrompt():
+@app.route('/ask', methods=["POST"])
+def ask():
     global initDone
     prompt = request.json['prompt']
 
