@@ -4,3 +4,4 @@ python-dotenv
 Flask
 Flask-RESTful
 pymongo
+pydantic==1.10.9
