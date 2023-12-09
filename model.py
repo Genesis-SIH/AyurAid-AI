@@ -18,6 +18,8 @@ Only return the helpful answer below and nothing else.
 Helpful answer:
 """
 
+
+
 def set_custom_prompt():
     """
     Prompt template for QA retrieval for each vectorstore
@@ -38,9 +40,8 @@ def retrieval_qa_chain(llm, prompt, db):
 
 #Loading the model
 def load_llm():
-    # Load the locally downloaded model here
     llm = CTransformers(
-        model = "llama-2-7b-chat.ggmlv3.q8_0.bin",
+        model = "model/llama-2-7b-chat.ggmlv3.q8_0.bin",
         model_type="llama",
         max_new_tokens = 512,
         temperature = 0.5
@@ -77,12 +78,13 @@ async def start():
 
 @cl.on_message
 async def main(message):
+    print(message)
     chain = cl.user_session.get("chain") 
     cb = cl.AsyncLangchainCallbackHandler(
         stream_final_answer=True, answer_prefix_tokens=["FINAL", "ANSWER"]
     )
     cb.answer_reached = True
-    res = await chain.acall(message, callbacks=[cb])
+    res = await chain.acall(message.content, callbacks=[cb])
     answer = res["result"]
     sources = res["source_documents"]
 
@@ -90,5 +92,5 @@ async def main(message):
         answer += f"\nSources:" + str(sources)
     else:
         answer += "\nNo sources found"
-
+    print(answer)
     await cl.Message(content=answer).send()
