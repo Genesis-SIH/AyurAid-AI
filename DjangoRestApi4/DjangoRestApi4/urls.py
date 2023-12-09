@@ -19,18 +19,8 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # Include datas.urls first to take precedence
     path(r'^api/', include('datas.urls')),
-    # Place any broader patterns after datas.urls
-    # ...
+  
 ]
 
-# from django.contrib import admin
-# from django.urls import path,include
 
-# urlpatterns = [
-#     path('admin/', admin.site.urls),
-#     # path(r'^', include('datas.urls')),
-#     # path(r'^api/', include('datas.urls')),
-#      path(r'^api/', include('datas.urls')),
-# ]
