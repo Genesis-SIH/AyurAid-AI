@@ -73,10 +73,14 @@ def final_result(query):
 
 def main():
 
-     print("Anirudh")
-     answer = final_result("what is pita?")
+    query = ""
+    
+    while query!="quit":
 
-     print(answer)
+        query = input("Enter the query ? ->  ")
+        answer = final_result(query)
 
-if _name_ == "_main_" :
+        print(answer)
+
+if __name__ == "__main__" :
     main()
