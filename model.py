@@ -18,6 +18,15 @@ Only return the helpful answer below and nothing else.
 Helpful answer:
 """
 
+#Loading the model
+def load_llm():
+    llm = CTransformers(
+        model = "model/llama-2-7b-chat.ggmlv3.q8_0.bin",
+        model_type="llama",
+        max_new_tokens = 512,
+        temperature = 0.5
+    )
+    return llm
 
 
 def set_custom_prompt():
@@ -27,6 +36,10 @@ def set_custom_prompt():
     prompt = PromptTemplate(template=custom_prompt_template,
                             input_variables=['context', 'question'])
     return prompt
+
+prompt = set_custom_prompt()
+llm = load_llm()
+
 
 #Retrieval QA Chain
 def retrieval_qa_chain(llm, prompt, db):
@@ -38,72 +51,32 @@ def retrieval_qa_chain(llm, prompt, db):
                                        )
     return qa_chain
 
-#Loading the model
-def load_llm():
-    llm = CTransformers(
-        model = "model/llama-2-7b.ggmlv3.q8_0.bin",
-        model_type="llama",
-        max_new_tokens = 512,
-        temperature = 0.5
-    )
-    return llm
 
-#QA Model Function
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
                                        model_kwargs={'device': 'cpu'})
     db = FAISS.load_local(DB_FAISS_PATH, embeddings)
-    llm = load_llm()
-    qa_prompt = set_custom_prompt()
-    qa = retrieval_qa_chain(llm, qa_prompt, db)
+    qa = retrieval_qa_chain(llm, prompt, db)
 
     return qa
 
+
+
+qaBot = qa_bot()
+
+
 #output function
 def final_result(query):
-    qa_result = qa_bot()
+    qa_result = qaBot
     response = qa_result({'query': query})
     return response
 
 def main():
 
-    print("Anirudh")
-    answer = final_result("what is pita?")
+     print("Anirudh")
+     answer = final_result("what is pita?")
 
-    print(answer)
+     print(answer)
 
-if __name__ == "__main__" :
+if _name_ == "_main_" :
     main()
-
-"""
-#chainlit code
-@cl.on_chat_start
-async def start():
-    chain = qa_bot()
-    msg = cl.Message(content="Starting the bot...")
-    await msg.send()
-    msg.content = "Hi, Welcome! What is your query?"
-    await msg.update()
-
-    cl.user_session.set("chain", chain)
-
-@cl.on_message
-async def main(message):
-    print(message)
-    chain = cl.user_session.get("chain") 
-    cb = cl.AsyncLangchainCallbackHandler(
-        stream_final_answer=True, answer_prefix_tokens=["FINAL", "ANSWER"]
-    )
-    cb.answer_reached = True
-    res = await chain.acall(message.content, callbacks=[cb])
-    answer = res["result"]
-    sources = res["source_documents"]
-
-    if sources:
-        answer += f"\nSources:" + str(sources)
-    else:
-        answer += "\nNo sources found"
-    print(answer)
-    await cl.Message(content=answer).send()
-
-"""
