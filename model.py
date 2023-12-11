@@ -23,7 +23,7 @@ def load_llm():
     llm = CTransformers(
         model = "model/llama-2-7b-chat.ggmlv3.q8_0.bin",
         model_type="llama",
-        max_new_tokens = 512,
+        max_new_tokens = 1024,
         temperature = 0.5
     )
     return llm
@@ -73,14 +73,15 @@ def final_result(query):
 
 def main():
 
-    query = ""
-    
+    query = input("Enter the query ? ->  ")
+
     while query!="quit":
-
-        query = input("Enter the query ? ->  ")
+                
         answer = final_result(query)
-
         print(answer)
+        query = input("Enter the query ? ->  ")
+    
+
 
 if __name__ == "__main__" :
     main()
