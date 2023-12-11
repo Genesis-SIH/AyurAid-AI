@@ -18,6 +18,15 @@ Only return the helpful answer below and nothing else.
 Helpful answer:
 """
 
+#Loading the model
+def load_llm():
+    llm = CTransformers(
+        model = "model/llama-2-7b-chat.ggmlv3.q8_0.bin",
+        model_type="llama",
+        max_new_tokens = 512,
+        temperature = 0.5
+    )
+    return llm
 
 
 def set_custom_prompt():
@@ -27,6 +36,10 @@ def set_custom_prompt():
     prompt = PromptTemplate(template=custom_prompt_template,
                             input_variables=['context', 'question'])
     return prompt
+
+prompt = set_custom_prompt()
+llm = load_llm()
+
 
 #Retrieval QA Chain
 def retrieval_qa_chain(llm, prompt, db):
@@ -38,37 +51,43 @@ def retrieval_qa_chain(llm, prompt, db):
                                        )
     return qa_chain
 
-#Loading the model
-def load_llm():
-    llm = CTransformers(
-        model = "model/llama-2-7b-chat.ggmlv3.q8_0.bin",
-        model_type="llama",
-        max_new_tokens = 512,
-        temperature = 0.5
-    )
-    return llm
 
-#QA Model Function
 def qa_bot():
     embeddings = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2",
                                        model_kwargs={'device': 'cpu'})
     db = FAISS.load_local(DB_FAISS_PATH, embeddings)
-    llm = load_llm()
-    qa_prompt = set_custom_prompt()
-    qa = retrieval_qa_chain(llm, qa_prompt, db)
+    qa = retrieval_qa_chain(llm, prompt, db)
 
     return qa
 
+
+
+qaBot = qa_bot()
+
+
+
+
 #output function
 def final_result(query):
-    qa_result = qa_bot()
+    qa_result = qaBot
     response = qa_result({'query': query})
     return response
 
-#chainlit code
+# def main():
+
+#     print("Anirudh")
+#     answer = final_result("what is pita?")
+
+#     print(answer)
+
+# if __name__ == "__main__" :
+#     main()
+
+
+
 @cl.on_chat_start
 async def start():
-    chain = qa_bot()
+    chain = qaBot
     msg = cl.Message(content="Starting the bot...")
     await msg.send()
     msg.content = "Hi, Welcome! What is your query?"
