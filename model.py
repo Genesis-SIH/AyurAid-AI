@@ -41,7 +41,7 @@ def retrieval_qa_chain(llm, prompt, db):
 #Loading the model
 def load_llm():
     llm = CTransformers(
-        model = "model/llama-2-7b-chat.ggmlv3.q8_0.bin",
+        model = "model/llama-2-7b.ggmlv3.q8_0.bin",
         model_type="llama",
         max_new_tokens = 512,
         temperature = 0.5
@@ -65,6 +65,17 @@ def final_result(query):
     response = qa_result({'query': query})
     return response
 
+def main():
+
+    print("Anirudh")
+    answer = final_result("what is pita?")
+
+    print(answer)
+
+if __name__ == "__main__" :
+    main()
+
+"""
 #chainlit code
 @cl.on_chat_start
 async def start():
@@ -94,3 +105,5 @@ async def main(message):
         answer += "\nNo sources found"
     print(answer)
     await cl.Message(content=answer).send()
+
+"""
