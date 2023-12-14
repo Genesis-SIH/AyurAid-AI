@@ -1,6 +1,5 @@
 import os
 
-import chainlit as cl
 from langchain.chains import RetrievalQA
 from langchain.chat_models import ChatOpenAI
 from langchain.embeddings import OpenAIEmbeddings
