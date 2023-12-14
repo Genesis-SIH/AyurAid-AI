@@ -1,0 +1,8 @@
+langchain
+chainlit
+python-dotenv
+faiss-cpu
+pypdf
+tiktoken
+openai
+fastapi
