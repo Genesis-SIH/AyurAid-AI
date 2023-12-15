@@ -19,4 +19,4 @@ def addBlock():
     return jsonify({'answer': dummyText})
 
 if __name__ == "__main__":
-    app.run(debug=True) 
+    app.run(debug=False) 
