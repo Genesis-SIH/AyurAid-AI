@@ -118,6 +118,7 @@ def create_retrieval_qa_bot(
 
     return qa
 
+conversation_history = []
 
 def retrieve_bot_answer(query):
     """
@@ -132,9 +133,15 @@ def retrieve_bot_answer(query):
     Returns:
         dict: The QA bot's response, typically a dictionary with response details.
     """
+
+    conversation_history.append(query)
+
     qa_bot_instance = create_retrieval_qa_bot()
-    bot_response = qa_bot_instance({"query": query})
-    return bot_response
+    bot_response = qa_bot_instance({"query": query, "context": conversation_history})
+
+    conversation_history.append(bot_response['result'])
+
+    return bot_response['result']
 
 
 def final_result(query):
