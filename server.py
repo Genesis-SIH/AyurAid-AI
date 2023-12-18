@@ -8,8 +8,14 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris lobortis convall
 """
 
 @app.route('/chatbot/ask', methods=['POST'])
-def initChain():
-    content = request.json
+def askChatbot():
+    text = request.json['text']
+    type = request.json['type']
+    timestamp = request.json['timestamp']
+    id = request.json['id']
+    data = request.json['data']
+
+    
     return jsonify({'answer': dummyText})
 
 
