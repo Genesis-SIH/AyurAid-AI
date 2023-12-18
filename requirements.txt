@@ -1,2 +1,9 @@
 Flask
 Flask-RESTful
+langchain
+python-dotenv
+faiss-cpu
+pypdf
+tiktoken
+openai
+fastapi
