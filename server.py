@@ -18,6 +18,21 @@ def askChatbot():
     return jsonify({'answer': answer})
 
 
+@app.route('/blog/ask', methods=['POST'])
+def askChatbot():
+    prompt = request.json['prompt']
+    # type = request.json['type']
+    # timestamp = request.json['timestamp']
+    # id = request.json['id']
+    # data = request.json['data']
+
+    answer = prompt_generator.final_result(prompt)
+
+
+    return jsonify({'answer': answer})
+
+
+
 # @app.route('/exercise/ask', methods=['POST'])
 # def addBlock():
 #     content = request.json
