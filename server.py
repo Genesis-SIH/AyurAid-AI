@@ -19,7 +19,7 @@ def askChatbot():
 
 
 @app.route('/blog/ask', methods=['POST'])
-def askChatbot():
+def askBlogAi():
     prompt = request.json['prompt']
     # type = request.json['type']
     # timestamp = request.json['timestamp']
