@@ -17,28 +17,33 @@ OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 
 prompt_template = """
+Use the following pieces of context to answer the users question briefly
+and preciesly, don't miss any information or qoutes and don't try to make up an answer out of context.
+
+If you don't know the answer, just say that you don't know, don't try to make up an answer.
+Clearly state when the chatbot doesn't have information on a particular query.
+
 Allow users to retrieve information about the ingredients of specific Ayurvedic remedies by providing the name of the remedy. 
 Respond with a list of ingredients.
 
-Always include a 'INGREDIENT' section in the response, refering to list of ingredients based on ayurvedic remedies
+If you don't know the answer, just say that you don't know, don't try to make up an answer.
+Clearly state when the chatbot doesn't have information on a particular query.
+
+Always include a 'INGREDIENT : ' section in the response, refering to list of ingredients based on ayurvedic remedies
 
 Enable users to share health concerns or symptoms then suggest appropriate Ayurvedic remedies, dos and don'ts as per the  sympotms.
 
 the format should always be like :- 
 
-                    REMEDIES PROCESS DESCRIPTION
-                    INGREDIENTS
-                    DOS
-                    DON'TS
-
-If you don't know the answer, just say that you don't know, don't try to make up an answer.
-Clearly state when the chatbot doesn't have information on a particular query.
+                    REMEDIES PROCESS DESCRIPTION : 
+                    INGREDIENTS : 
+                    DOS : 
+                    DON'TS :
 
 If users inquire about the chatbot, provide a brief explanation of its identity and function.
 Greet users back when they initiate a greeting.
 
-Always include a 'SOURCES' section in the response, referencing Ayurvedic 
-databases and books as information sources."
+Always provide details of refrenced and relevant books and their authors in the 'SOURCES : ' section.
 
 Context: {context}
 Question: {question}
@@ -76,7 +81,7 @@ def create_retrieval_qa_chain(llm, prompt, db):
     qa_chain = RetrievalQA.from_chain_type(
         llm=llm,
         chain_type="stuff",
-        retriever=db.as_retriever(search_kwargs={"k": 3}),
+        retriever=db.as_retriever(search_kwargs={"k": 2}),
         return_source_documents=True,
         chain_type_kwargs={"prompt": prompt},
     )
