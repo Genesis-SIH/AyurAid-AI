@@ -1,5 +1,10 @@
 from flask import Flask, request, jsonify
 import prompt_generator
+import mongo
+
+
+# using time module
+import time
 
 app = Flask(__name__)
 
@@ -7,13 +12,30 @@ app = Flask(__name__)
 @app.route('/chatbot/ask', methods=['POST'])
 def askChatbot():
     prompt = request.json['prompt']
-    # type = request.json['type']
-    # timestamp = request.json['timestamp']
-    # id = request.json['id']
-    # data = request.json['data']
+
+    ts = time.time()
+    userMessage = {
+        "id": ts,
+        "type": "user",
+        "timestamp": ts,
+        "message": prompt,
+        "data":None,
+    }
 
     answer = prompt_generator.final_result(prompt)
 
+    tsBot = time.time()
+
+    botMessage = {
+        "id": tsBot,
+        "type": "bot",
+        "timestamp": tsBot,
+        "message": answer,
+        "data":None,
+    }
+
+    mongo.saveChat(userMessage)
+    mongo.saveChat(botMessage)
 
     return jsonify({'answer': answer})
 
@@ -39,4 +61,4 @@ def askBlogAi():
 #     return jsonify({'answer': dummyText})
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0') 
+    app.run(debug=True) 
