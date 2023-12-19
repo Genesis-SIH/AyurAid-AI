@@ -1,5 +1,4 @@
 langchain
-chainlit
 python-dotenv
 faiss-cpu
 pypdf
