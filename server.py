@@ -36,7 +36,6 @@ def askChatbot():
     }
 
 
-
     thisCollection = myCollection.find_one({"id": chatId})
 
     if thisCollection is not None:
