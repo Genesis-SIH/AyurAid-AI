@@ -9,12 +9,12 @@ myDb = myClient["AyurAid"]
 myCollection = myDb["chatbot"]
 
 
-def saveChat(data):
-    thisChat = myCollection.find_one({"id": data["id"]})
+def saveChat(data,chatId):
+    thisChat = myCollection.find_one({"id": chatId})
     if thisChat is None:
         tempChats = []
         tempChats.append(data)
-        myCollection.insert_one({"id": data["id"], "chats": tempChats})
+        myCollection.insert_one({"id": chatId, "chats": tempChats})
     else:
         tempChats = []
         for chat in thisChat["chats"]:
