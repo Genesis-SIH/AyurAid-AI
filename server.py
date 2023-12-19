@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import mongo
 from mongo import myCollection
-
+import prompt_generator
 
 # using time module
 import time
@@ -23,8 +23,9 @@ def askChatbot():
         "data":None,
     }
 
-    answer = "hello usr"
-
+    answer = prompt_generator.final_result(prompt)
+    
+    
     tsBot = time.time()
     botMessage = {
         "id": tsBot,
@@ -57,6 +58,7 @@ def askChatbot():
     return jsonify({'answer': answer})
 
 
+
 @app.route('/chatbot/get', methods=['POST'])
 def getChatsRoute():
     chatId = request.json["chatId"]
@@ -74,30 +76,12 @@ def getChatsRoute():
 @app.route('/blog/ask', methods=['POST'])
 def askBlogAi():
     prompt = request.json['prompt']
-    # # type = request.json['type']
-    # # timestamp = request.json['timestamp']
-    # # id = request.json['id']
-    # # data = request.json['data']
 
-    # answer = prompt_generator.final_result(prompt)
+    answer = prompt_generator.final_result(prompt)
+    
+    return jsonify({'answer': answer})
 
 
-# @app.route('/blog/ask', methods=['GET'])
-# def getChats(collectionId, chatId):
-#     thisCollection = myCollection.find_one({"id": "collectionId"})
-
-#     if thisCollection is not None:
-#         for chat in thisCollection.get("chats", []):
-#             if chatId in chat:
-#                 return chat[chatId]
-
-#     return None
-
-
-# @app.route('/exercise/ask', methods=['POST'])
-# def addBlock():
-#     content = request.json
-#     return jsonify({'answer': dummyText})
 
 if __name__ == "__main__":
-    app.run(debug=True) 
+    app.run(host='0.0.0.0') 
