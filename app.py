@@ -20,16 +20,16 @@ prompt_template = """
 Allow users to retrieve information about the ingredients of specific Ayurvedic remedies by providing the name of the remedy. 
 Respond with a list of ingredients.
 
-Always include a 'INGREDIENT' section in the response, refering to list of ingredients based on ayurvedic remedies
+Always include a 'INGREDIENT : ' section in the response, refering to list of ingredients based on ayurvedic remedies
 
 Enable users to share health concerns or symptoms then suggest appropriate Ayurvedic remedies, dos and don'ts as per the  sympotms.
 
 the format should always be like :- 
 
-                    REMEDIES PROCESS DESCRIPTION
-                    INGREDIENTS
-                    DOS
-                    DON'TS
+                    REMEDIES PROCESS DESCRIPTION : 
+                    INGREDIENTS : 
+                    DOS : 
+                    DON'TS : 
 
 If you don't know the answer, just say that you don't know, don't try to make up an answer.
 Clearly state when the chatbot doesn't have information on a particular query.
@@ -37,8 +37,7 @@ Clearly state when the chatbot doesn't have information on a particular query.
 If users inquire about the chatbot, provide a brief explanation of its identity and function.
 Greet users back when they initiate a greeting.
 
-Always include a 'SOURCES' section in the response, referencing Ayurvedic 
-databases and books as information sources."
+Kindly always provide details of relevant books and their authors in the 'SOURCES : ' section.
 
 Context: {context}
 Question: {question}
