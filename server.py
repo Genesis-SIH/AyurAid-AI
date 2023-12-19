@@ -34,8 +34,8 @@ def askChatbot():
         "data":None,
     }
 
-    mongo.saveChat(userMessage)
-    mongo.saveChat(botMessage)
+    # mongo.saveChat(userMessage)
+    # mongo.saveChat(botMessage)
 
     return jsonify({'answer': answer})
 
