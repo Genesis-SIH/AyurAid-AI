@@ -159,9 +159,6 @@ def main():
 
         print(answer)
 
-        file = open("output.txt", "w")
-        file.write(answer)
-
 if __name__ == "__main__" :
     main()
 
