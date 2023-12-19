@@ -19,7 +19,7 @@ def askChatbot():
         "id": ts,
         "type": "user",
         "timestamp": ts,
-        "message": prompt,
+        "text": prompt,
         "data":None,
     }
 
@@ -31,7 +31,7 @@ def askChatbot():
         "id": tsBot,
         "type": "bot",
         "timestamp": tsBot,
-        "message": answer,
+        "text": answer,
         "data":None,
 
     }
