@@ -37,7 +37,7 @@ Clearly state when the chatbot doesn't have information on a particular query.
 If users inquire about the chatbot, provide a brief explanation of its identity and function.
 Greet users back when they initiate a greeting.
 
-Kindly always provide details of relevant books and their authors in the 'SOURCES : ' section.
+Always provide details of refrenced and relevant books and their authors in the 'SOURCES : ' section.
 
 Context: {context}
 Question: {question}
