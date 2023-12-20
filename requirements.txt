@@ -8,3 +8,4 @@ fastapi
 Flask
 Flask-RESTful
 pymongo
+flask-cors

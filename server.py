@@ -2,14 +2,17 @@ from flask import Flask, request, jsonify
 import mongo
 from mongo import myCollection
 import prompt_generator
-
+from flask_cors import CORS, cross_origin
+from flask_cors import cross_origin
 # using time module
 import time
 
 app = Flask(__name__)
-
+cors = CORS(app)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/chatbot/ask', methods=['POST'])
+@cross_origin(["http://localhost:4000","https://ayur-aid-web.vercel.app"])
 def askChatbot():
     prompt = request.json['prompt']
     chatId = request.json["chatId"]
@@ -60,6 +63,7 @@ def askChatbot():
 
 
 @app.route('/chatbot/get', methods=['POST'])
+@cross_origin(["http://localhost:4000","https://ayur-aid-web.vercel.app"])
 def getChatsRoute():
     chatId = request.json["chatId"]
 
@@ -74,6 +78,7 @@ def getChatsRoute():
    
 
 @app.route('/blog/ask', methods=['POST'])
+@cross_origin(["http://localhost:4000","https://ayur-aid-web.vercel.app"])
 def askBlogAi():
     prompt = request.json['prompt']
 
@@ -84,4 +89,4 @@ def askBlogAi():
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0') 
+    app.run(debug=True,port=8080) 
