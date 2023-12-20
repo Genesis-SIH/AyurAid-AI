@@ -3,7 +3,7 @@ import mongo
 from mongo import myCollection
 import prompt_generator
 from flask_cors import CORS, cross_origin
-from flask_cors import cross_origin
+
 # using time module
 import time
 
