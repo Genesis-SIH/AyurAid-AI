@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify
-import mongo
 from mongo import myCollection
 import prompt_generator
 from flask_cors import CORS, cross_origin
