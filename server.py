@@ -12,7 +12,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 
 @app.route('/util/wakeup', methods=['GET'])
 def wakeupServer():
-    return jsonify({'message': 'Hello User})
+    return jsonify({'message': 'Hello User'})
 
 @app.route('/chatbot/ask', methods=['POST'])
 @cross_origin(["http://localhost:4000","https://ayur-aid-web.vercel.app"])
