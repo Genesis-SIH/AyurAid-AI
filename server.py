@@ -10,6 +10,11 @@ app = Flask(__name__)
 cors = CORS(app)
 app.config['CORS_HEADERS'] = 'Content-Type'
 
+
+@app.route('/', methods=['GET'])
+def home():
+    return jsonify({'message': 'Namaste Amigos ! \nServer is up and running'})
+
 @app.route('/util/wakeup', methods=['GET'])
 def wakeupServer():
     return jsonify({'message': 'Hello User'})
